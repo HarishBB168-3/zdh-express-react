@@ -1,22 +1,24 @@
-const axios = require("./persistentClient")();
-const prompt = require("prompt-sync")({ sigint: true });
+// const axios = require("./persistentClient")();
 
-const url = "https://kite.zerodha.com/api/login";
-const url2 = "https://kite.zerodha.com/api/twofa";
+const axios = require("axios").default;
+
+const urlLogin = "https://kite.zerodha.com/api/login";
+const urlTwoFa = "https://kite.zerodha.com/api/twofa";
+const urlFullUserData = "https://kite.zerodha.com/oms/user/profile/full";
+const urlPositions = "https://kite.zerodha.com/oms/portfolio/positions";
+const urlHoldings = "https://kite.zerodha.com/oms/portfolio/holdings";
+const urlOrders = "https://kite.zerodha.com/oms/orders";
 
 const kf_session = "SrDHp5lRWf7zy04TlDsUoK5bEW2FJmpE";
 const public_token = "2PIKAvBdu4EvyAZKC4dkm17ab6rm4bam";
 const cfduid = "dcf1eb2de63cedaec00a3abda0a3c72ba1584067336";
-
-const userId = process.env.KITE_USER_ID;
-const password = process.env.KITE_PASSWORD;
 
 const cookieIn =
   "__cfduid=dcf1eb2de63cedaec00a3abda0a3c72ba1584067336; " +
   "_ga=GA1.2.1692021908.1584287645; " +
   "enctoken=0RoU4gI/E0/hB+VhA391BpSWPJ+LtZ7ynhSdN9pkI9mRSVKblisVu2p6CjIyzdOMRCnQBuQ8eMwj5FXSWAxBPYTl5b9QYg==;";
 
-const headers = {
+const getHeaders = (userId) => ({
   accept: "application/json, text/plain, */*",
   "accept-encoding": "gzip, deflate",
   "accept-language": "en-US,en;q=0.9",
@@ -35,9 +37,9 @@ const headers = {
   "x-csrftoken": "mguZxC0ENJ89bitPRxK5LvLGnNIOkMhZ",
   "x-kite-userid": userId,
   "x-kite-version": "2.4.0",
-};
+});
 
-const headers2 = {
+const getHeaders2 = (userId) => ({
   Accept: "application/json, text/plain, */*",
   "Content-Type": "application/x-www-form-urlencoded",
   Origin: "https",
@@ -49,44 +51,117 @@ const headers2 = {
   "X-Kite-Userid": userId,
   "X-Kite-Version": "2.4.0",
   Cookie: cookieIn,
-};
+});
 
-const login = async () => {
+const login = async (userId, password) => {
   const encodedPass = encodeURIComponent(password);
   const payload = `user_id=${userId}&password=${encodedPass}`;
 
-  const {
-    data,
-    status,
-    headers: mHeaders,
-  } = await axios.post(url, payload, {
-    headers,
-  });
+  const headers = getHeaders(userId);
+  try {
+    const {
+      data,
+      status,
+      headers: newHeaders,
+    } = await axios.post(urlLogin, payload, {
+      headers,
+    });
 
-  if (status !== 200) {
-    console.log("Unknown error with status : ", status);
-    return;
+    console.log("data, status :>> ", data, status);
+
+    if (status !== 200) {
+      console.log("Unknown error with status : ", status);
+      return { error: "Unknown error occured in login" };
+    }
+
+    const requestId = data.data.request_id;
+
+    // Getting kf_session part from cookie
+    const cookie = newHeaders["set-cookie"][0].split(" ")[0];
+    const cookieFinal = cookieIn + " " + cookie;
+    return { requestId, cookieFinal };
+  } catch (err) {
+    return { error: err.message };
   }
-
-  const requestId = data.data.request_id;
-  const cookie = mHeaders["set-cookie"][0].split(" ")[0];
-  const cookieFinal = cookieIn + " " + cookie;
-  return { requestId, cookieFinal };
 };
 
-const twoFa = async (requestId, twoFa, cookieFinal) => {
+const getEnctokenFromCookie = (cookies) => {
+  const newCookie = cookies.join("; ").split("; ");
+  const enctoken = newCookie
+    .find((item) => item.includes("enctoken"))
+    ?.replace("enctoken=", "");
+  return enctoken;
+};
+
+const twoFaAuth = async (userId, requestId, cookieFinal, twoFa) => {
   const twofa_encoded = encodeURIComponent(twoFa);
-  headers2["Cookie"] = cookieFinal;
-  const data2 = `user_id=${userId}&request_id=${requestId}"&twofa_value=${twofa_encoded}`;
+  const h = getHeaders2(userId);
+  h["Cookie"] = cookieFinal;
+  const data = `user_id=${userId}&request_id=${requestId}&twofa_value=${twofa_encoded}`;
 
-  const { data: rData2 } = await axios.post(url2, data2, {
-    headers2,
-  });
+  try {
+    const { data: recData, headers: newHeaders } = await axios.post(
+      urlTwoFa,
+      data,
+      {
+        headers: h,
+      }
+    );
+    // console.log("recData :>> ", recData);
+    // console.log("newHeaders :>> ", newHeaders);
+    const cookie = newHeaders["set-cookie"];
+    // console.log("cookie :>> ", cookie);
+    const enctoken = getEnctokenFromCookie(cookie);
+    return { enctoken };
+  } catch (err) {
+    console.log("err.message : ", err.message);
+    return { message: "Error in twoFaAuth" };
+  }
+};
 
-  console.log("rData2 :>> ", rData2);
+const validateEnctoken = async (enctoken) => {
+  try {
+    const { data } = await axios.get(urlFullUserData, {
+      headers: {
+        Authorization: `enctoken ${enctoken}`,
+      },
+    });
+    return data;
+  } catch (err) {
+    return { message: err.message };
+  }
+};
+
+const _baseCall = async (enctoken, url) => {
+  try {
+    const { data } = await axios.get(url, {
+      headers: {
+        Authorization: `enctoken ${enctoken}`,
+      },
+    });
+    return data;
+  } catch (err) {
+    return { message: err.message };
+  }
+};
+
+const getPositions = async (enctoken) => {
+  return _baseCall(enctoken, urlPositions);
+};
+
+const getHoldings = async (enctoken) => {
+  return _baseCall(enctoken, urlHoldings);
+};
+
+const getOrders = async (enctoken) => {
+  return _baseCall(enctoken, urlOrders);
 };
 
 module.exports = {
   login,
-  twoFa,
+  twoFaAuth,
+  validateEnctoken,
+  getPositions,
+  getHoldings,
+  getOrders,
 };
