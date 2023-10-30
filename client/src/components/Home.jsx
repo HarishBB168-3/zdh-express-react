@@ -4,6 +4,8 @@ import { getHoldings, getOrders, getPositions } from "../services/zdhService";
 import { useEffect, useState } from "react";
 import OrderList from "./OrderList";
 import PositionList from "./PositionList";
+import AutoTradeCloseVerifier from "./AutoTradeCloseVerifier";
+import OrderCreater from "./OrderCreater";
 
 const Home = () => {
   const { saveUserAndTokenInLocal, enctoken } = useUser();
@@ -64,19 +66,21 @@ const Home = () => {
       <Flex gap="1rem">
         {positions && (
           <PositionList
-            netPositions={positions.data.net}
-            dayPositions={positions.data.day}
+            netPositions={positions?.data?.net}
+            dayPositions={positions?.data?.day}
           />
         )}
-        <Flex flex="1 0" flexDir="column" border="1px solid blue" p="10px">
+        {/* <Flex flex="1 0" flexDir="column" border="1px solid blue" p="10px">
           <Heading fontSize="2rem">Holdings</Heading>
-          {/* <Text wordBreak="break-all">{JSON.stringify(holdings)}</Text> */}
-        </Flex>
+          <Text wordBreak="break-all">{JSON.stringify(holdings)}</Text>
+        </Flex> */}
         {orders && (
           <Flex flex="1 0">
             <OrderList ordersList={orders.data} />
           </Flex>
         )}
+        {/* <AutoTradeCloseVerifier /> */}
+        <OrderCreater />
       </Flex>
     </Flex>
   );

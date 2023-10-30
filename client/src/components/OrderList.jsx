@@ -39,15 +39,17 @@ const OrderList = ({ ordersList }) => {
     <Flex flexDir="column" gap="1rem">
       <Heading fontSize="2rem">Orders</Heading>
 
-      <Flex flexDir="column" gap="1rem">
-        {activeOrders.map((order, idx) => (
-          <Order key={idx} order={order} />
-        ))}
-      </Flex>
-      <Flex flexDir="column" gap="1rem" opacity="50%">
-        {inactiveOrders.map((order, idx) => (
-          <Order key={idx} order={order} />
-        ))}
+      <Flex flexDir="column" maxH="80vh" overflowY="auto">
+        <Flex flexDir="column" gap="1rem">
+          {activeOrders.map((order, idx) => (
+            <Order key={idx} order={order} />
+          ))}
+        </Flex>
+        <Flex flexDir="column" gap="1rem" opacity="50%">
+          {inactiveOrders.map((order, idx) => (
+            <Order key={idx} order={order} />
+          ))}
+        </Flex>
       </Flex>
     </Flex>
   );

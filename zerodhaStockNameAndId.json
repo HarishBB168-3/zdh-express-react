@@ -1,0 +1,406 @@
+[
+ {
+   "stock_name": "ACC",
+   "stock_id": 5633
+ },
+ {
+   "stock_name": "ADANIPORTS",
+   "stock_id": 3861249
+ },
+ {
+   "stock_name": "ADANITRANS",
+   "stock_id": 2615553
+ },
+ {
+   "stock_name": "AMBUJACEM",
+   "stock_id": 325121
+ },
+ {
+   "stock_name": "ASHOKLEY",
+   "stock_id": 54273
+ },
+ {
+   "stock_name": "ASIANPAINT",
+   "stock_id": 60417
+ },
+ {
+   "stock_name": "AUROPHARMA",
+   "stock_id": 70401
+ },
+ {
+   "stock_name": "AXISBANK",
+   "stock_id": 1510401
+ },
+ {
+   "stock_name": "BAJAJ-AUTO",
+   "stock_id": 4267265
+ },
+ {
+   "stock_name": "BAJAJFINSV",
+   "stock_id": 4268801
+ },
+ {
+   "stock_name": "BAJAJHLDNG",
+   "stock_id": 78081
+ },
+ {
+   "stock_name": "BAJFINANCE",
+   "stock_id": 81153
+ },
+ {
+   "stock_name": "BANDHANBNK",
+   "stock_id": 579329
+ },
+ {
+   "stock_name": "BANKBARODA",
+   "stock_id": 1195009
+ },
+ {
+   "stock_name": "BERGEPAINT",
+   "stock_id": 103425
+ },
+ {
+   "stock_name": "BHARTIARTL",
+   "stock_id": 2714625
+ },
+ {
+   "stock_name": "BIOCON",
+   "stock_id": 2911489
+ },
+ {
+   "stock_name": "BOSCHLTD",
+   "stock_id": 558337
+ },
+ {
+   "stock_name": "BPCL",
+   "stock_id": 134657
+ },
+ {
+   "stock_name": "BRITANNIA",
+   "stock_id": 140033
+ },
+ {
+   "stock_name": "CADILAHC",
+   "stock_id": 2029825
+ },
+ {
+   "stock_name": "CIPLA",
+   "stock_id": 177665
+ },
+ {
+   "stock_name": "COALINDIA",
+   "stock_id": 5215745
+ },
+ {
+   "stock_name": "COLPAL",
+   "stock_id": 3876097
+ },
+ {
+   "stock_name": "CONCOR",
+   "stock_id": 1215745
+ },
+ {
+   "stock_name": "DABUR",
+   "stock_id": 197633
+ },
+ {
+   "stock_name": "DIVISLAB",
+   "stock_id": 2800641
+ },
+ {
+   "stock_name": "DLF",
+   "stock_id": 3771393
+ },
+ {
+   "stock_name": "DMART",
+   "stock_id": 5097729
+ },
+ {
+   "stock_name": "DRREDDY",
+   "stock_id": 225537
+ },
+ {
+   "stock_name": "EICHERMOT",
+   "stock_id": 232961
+ },
+ {
+   "stock_name": "GAIL",
+   "stock_id": 1207553
+ },
+ {
+   "stock_name": "GICRE",
+   "stock_id": 70913
+ },
+ {
+   "stock_name": "GODREJCP",
+   "stock_id": 2585345
+ },
+ {
+   "stock_name": "GRASIM",
+   "stock_id": 315393
+ },
+ {
+   "stock_name": "HAVELLS",
+   "stock_id": 2513665
+ },
+ {
+   "stock_name": "HCLTECH",
+   "stock_id": 1850625
+ },
+ {
+   "stock_name": "HDFC",
+   "stock_id": 340481
+ },
+ {
+   "stock_name": "HDFCAMC",
+   "stock_id": 1086465
+ },
+ {
+   "stock_name": "HDFCBANK",
+   "stock_id": 341249
+ },
+ {
+   "stock_name": "HDFCLIFE",
+   "stock_id": 119553
+ },
+ {
+   "stock_name": "HEROMOTOCO",
+   "stock_id": 345089
+ },
+ {
+   "stock_name": "HINDALCO",
+   "stock_id": 348929
+ },
+ {
+   "stock_name": "HINDPETRO",
+   "stock_id": 359937
+ },
+ {
+   "stock_name": "HINDUNILVR",
+   "stock_id": 356865
+ },
+ {
+   "stock_name": "HINDZINC",
+   "stock_id": 364545
+ },
+ {
+   "stock_name": "IBULHSGFIN",
+   "stock_id": 7712001
+ },
+ {
+   "stock_name": "ICICIBANK",
+   "stock_id": 1270529
+ },
+ {
+   "stock_name": "ICICIGI",
+   "stock_id": 5573121
+ },
+ {
+   "stock_name": "ICICIPRULI",
+   "stock_id": 4774913
+ },
+ {
+   "stock_name": "IDEA",
+   "stock_id": 3677697
+ },
+ {
+   "stock_name": "INDIGO",
+   "stock_id": 2865921
+ },
+ {
+   "stock_name": "INDUSINDBK",
+   "stock_id": 1346049
+ },
+ {
+   "stock_name": "INFRATEL",
+   "stock_id": 7458561
+ },
+ {
+   "stock_name": "INFY",
+   "stock_id": 408065
+ },
+ {
+   "stock_name": "IOC",
+   "stock_id": 415745
+ },
+ {
+   "stock_name": "ITC",
+   "stock_id": 424961
+ },
+ {
+   "stock_name": "JSWSTEEL",
+   "stock_id": 3001089
+ },
+ {
+   "stock_name": "KOTAKBANK",
+   "stock_id": 492033
+ },
+ {
+   "stock_name": "L&TFH",
+   "stock_id": 6386689
+ },
+ {
+   "stock_name": "LT",
+   "stock_id": 2939649
+ },
+ {
+   "stock_name": "LUPIN",
+   "stock_id": 2672641
+ },
+ {
+   "stock_name": "M&M",
+   "stock_id": 519937
+ },
+ {
+   "stock_name": "MARICO",
+   "stock_id": 1041153
+ },
+ {
+   "stock_name": "MARUTI",
+   "stock_id": 2815745
+ },
+ {
+   "stock_name": "MCDOWELL-N",
+   "stock_id": 2674433
+ },
+ {
+   "stock_name": "MOTHERSUMI",
+   "stock_id": 1076225
+ },
+ {
+   "stock_name": "NESTLEIND",
+   "stock_id": 4598529
+ },
+ {
+   "stock_name": "NHPC",
+   "stock_id": 4454401
+ },
+ {
+   "stock_name": "NIACL",
+   "stock_id": 102145
+ },
+ {
+   "stock_name": "NMDC",
+   "stock_id": 3924993
+ },
+ {
+   "stock_name": "NTPC",
+   "stock_id": 2977281
+ },
+ {
+   "stock_name": "OFSS",
+   "stock_id": 2748929
+ },
+ {
+   "stock_name": "ONGC",
+   "stock_id": 633601
+ },
+ {
+   "stock_name": "PAGEIND",
+   "stock_id": 3689729
+ },
+ {
+   "stock_name": "PEL",
+   "stock_id": 617473
+ },
+ {
+   "stock_name": "PETRONET",
+   "stock_id": 2905857
+ },
+ {
+   "stock_name": "PFC",
+   "stock_id": 3660545
+ },
+ {
+   "stock_name": "PGHH",
+   "stock_id": 648961
+ },
+ {
+   "stock_name": "PIDILITIND",
+   "stock_id": 681985
+ },
+ {
+   "stock_name": "PNB",
+   "stock_id": 2730497
+ },
+ {
+   "stock_name": "POWERGRID",
+   "stock_id": 3834113
+ },
+ {
+   "stock_name": "RELIANCE",
+   "stock_id": 738561
+ },
+ {
+   "stock_name": "SBILIFE",
+   "stock_id": 5582849
+ },
+ {
+   "stock_name": "SBIN",
+   "stock_id": 779521
+ },
+ {
+   "stock_name": "SHREECEM",
+   "stock_id": 794369
+ },
+ {
+   "stock_name": "SIEMENS",
+   "stock_id": 806401
+ },
+ {
+   "stock_name": "SRTRANSFIN",
+   "stock_id": 1102337
+ },
+ {
+   "stock_name": "SUNPHARMA",
+   "stock_id": 857857
+ },
+ {
+   "stock_name": "TATAMOTORS",
+   "stock_id": 884737
+ },
+ {
+   "stock_name": "TATAMTRDVR",
+   "stock_id": 4343041
+ },
+ {
+   "stock_name": "TATASTEEL",
+   "stock_id": 895745
+ },
+ {
+   "stock_name": "TCS",
+   "stock_id": 2953217
+ },
+ {
+   "stock_name": "TECHM",
+   "stock_id": 3465729
+ },
+ {
+   "stock_name": "TITAN",
+   "stock_id": 897537
+ },
+ {
+   "stock_name": "UBL",
+   "stock_id": 4278529
+ },
+ {
+   "stock_name": "ULTRACEMCO",
+   "stock_id": 2952193
+ },
+ {
+   "stock_name": "UPL",
+   "stock_id": 2889473
+ },
+ {
+   "stock_name": "VEDL",
+   "stock_id": 784129
+ },
+ {
+   "stock_name": "WIPRO",
+   "stock_id": 969473
+ },
+ {
+   "stock_name": "ZEEL",
+   "stock_id": 975873
+ }
+]

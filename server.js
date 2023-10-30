@@ -9,6 +9,8 @@ const {
   getPositions,
   getHoldings,
   getOrders,
+  getHistoricalData,
+  getStockDetails,
 } = require("./zerodha");
 
 const app = express();
@@ -88,6 +90,29 @@ app.post("/orders", async (req, res) => {
       res.status(400).json({ message: err.message });
     }
   } else res.status(400).send("Invalid data.");
+});
+
+app.post("/historicalData", async (req, res) => {
+  const { enctoken, stockId, fromDate, toDate } = req.body;
+  if (enctoken && stockId && fromDate && toDate) {
+    try {
+      const data = await getHistoricalData(enctoken, stockId, fromDate, toDate);
+      res.json(data);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  } else res.status(400).send("Invalid data.");
+});
+
+app.get("/stockDetailsFromIdOrName", async (req, res) => {
+  try {
+    const { stockId, stockName } = req.query;
+    const stockDetails = getStockDetails(stockId, stockName);
+    if (stockDetails) res.json(stockDetails);
+    else res.status(404).json({ message: "Not found" });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 });
 
 app.use(express.static("public"));

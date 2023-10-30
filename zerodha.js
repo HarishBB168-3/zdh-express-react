@@ -1,6 +1,7 @@
 // const axios = require("./persistentClient")();
 
 const axios = require("axios").default;
+const stockNameIdData = require("./zerodhaStockNameAndId.json");
 
 const urlLogin = "https://kite.zerodha.com/api/login";
 const urlTwoFa = "https://kite.zerodha.com/api/twofa";
@@ -8,6 +9,8 @@ const urlFullUserData = "https://kite.zerodha.com/oms/user/profile/full";
 const urlPositions = "https://kite.zerodha.com/oms/portfolio/positions";
 const urlHoldings = "https://kite.zerodha.com/oms/portfolio/holdings";
 const urlOrders = "https://kite.zerodha.com/oms/orders";
+const getUrlHistoricalData = (stockId, fromDate, toDate) =>
+  `https://kite.zerodha.com/oms/instruments/historical/${stockId}/3minute?from=${fromDate}&to=${toDate}`;
 
 const kf_session = "SrDHp5lRWf7zy04TlDsUoK5bEW2FJmpE";
 const public_token = "2PIKAvBdu4EvyAZKC4dkm17ab6rm4bam";
@@ -157,6 +160,19 @@ const getOrders = async (enctoken) => {
   return _baseCall(enctoken, urlOrders);
 };
 
+const getHistoricalData = async (enctoken, stockId, fromDate, toDate) => {
+  const url = getUrlHistoricalData(stockId, fromDate, toDate);
+  return _baseCall(enctoken, url);
+};
+
+const getStockDetails = (stockId = null, stockName = null) => {
+  if (stockId == null && stockName == null)
+    throw new Error("Atleast one argument is required.");
+  return stockNameIdData.find(
+    (item) => item.stock_id == stockId || item.stock_name == stockName
+  );
+};
+
 module.exports = {
   login,
   twoFaAuth,
@@ -164,4 +180,6 @@ module.exports = {
   getPositions,
   getHoldings,
   getOrders,
+  getHistoricalData,
+  getStockDetails,
 };
