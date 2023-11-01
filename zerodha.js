@@ -9,6 +9,7 @@ const urlFullUserData = "https://kite.zerodha.com/oms/user/profile/full";
 const urlPositions = "https://kite.zerodha.com/oms/portfolio/positions";
 const urlHoldings = "https://kite.zerodha.com/oms/portfolio/holdings";
 const urlOrders = "https://kite.zerodha.com/oms/orders";
+const urlPlaceOrder = "https://kite.zerodha.com/oms/orders/regular";
 const getUrlHistoricalData = (stockId, fromDate, toDate) =>
   `https://kite.zerodha.com/oms/instruments/historical/${stockId}/3minute?from=${fromDate}&to=${toDate}`;
 
@@ -173,6 +174,56 @@ const getStockDetails = (stockId = null, stockName = null) => {
   );
 };
 
+const validatePlaceOrderData = (data) => {
+  const keys = [
+    "variety",
+    "exchange",
+    "tradingsymbol",
+    "transaction_type",
+    "order_type",
+    "quantity",
+    "price",
+    "product",
+    "validity",
+    "disclosed_quantity",
+    "trigger_price",
+    "squareoff",
+    "stoploss",
+    "trailing_stoploss",
+    "user_id",
+    "enctoken",
+  ];
+
+  const dataKeys = Object.keys(data);
+
+  return keys.every((item) => dataKeys.includes(item));
+};
+
+const placeOrder = async (data) => {
+  if (!validatePlaceOrderData(data))
+    throw new Error("placeOrder() : Invalid data");
+
+  const enctoken = data.enctoken;
+  delete data.enctoken;
+
+  const headers = {
+    Authorization: `enctoken ${enctoken}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  const paramsData = new URLSearchParams(data);
+
+  try {
+    const { data: resData } = await axios.post(urlPlaceOrder, paramsData, {
+      headers,
+    });
+    console.log("resData :>> ", resData);
+    return resData;
+  } catch (err) {
+    throw new Error("Unable to place order : " + err.message);
+  }
+};
+
 module.exports = {
   login,
   twoFaAuth,
@@ -182,4 +233,5 @@ module.exports = {
   getOrders,
   getHistoricalData,
   getStockDetails,
+  placeOrder,
 };

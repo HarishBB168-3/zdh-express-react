@@ -11,6 +11,7 @@ const {
   getOrders,
   getHistoricalData,
   getStockDetails,
+  placeOrder,
 } = require("./zerodha");
 
 const app = express();
@@ -110,6 +111,16 @@ app.get("/stockDetailsFromIdOrName", async (req, res) => {
     const stockDetails = getStockDetails(stockId, stockName);
     if (stockDetails) res.json(stockDetails);
     else res.status(404).json({ message: "Not found" });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
+
+app.post("/placeOrder", async (req, res) => {
+  try {
+    const data = req.body;
+    const result = await placeOrder(data);
+    res.json(result);
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
