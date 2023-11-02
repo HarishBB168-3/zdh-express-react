@@ -220,7 +220,7 @@ const placeOrder = async (data) => {
     console.log("resData :>> ", resData);
     return resData;
   } catch (err) {
-    throw new Error("Unable to place order : " + err.message);
+    return err.response.data;
   }
 };
 

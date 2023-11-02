@@ -85,3 +85,16 @@ export const getLatestPriceForStockName = async (enctoken, stockName) => {
     return -1;
   }
 };
+
+export const placeOrder = async (enctoken, data) => {
+  try {
+    const { data: resData } = await http.post("/placeOrder", {
+      ...data,
+      enctoken,
+    });
+    console.log("resData :>> ", resData);
+    return resData;
+  } catch (err) {
+    return err.response.data;
+  }
+};

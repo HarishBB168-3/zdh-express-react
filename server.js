@@ -120,6 +120,11 @@ app.post("/placeOrder", async (req, res) => {
   try {
     const data = req.body;
     const result = await placeOrder(data);
+
+    if (result?.status === "error") {
+      return res.status(400).json(result);
+    }
+
     res.json(result);
   } catch (err) {
     return res.status(400).json({ message: err.message });

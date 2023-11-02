@@ -22,12 +22,18 @@ import { CopyIcon } from "@chakra-ui/icons";
 import {
   getLatestPriceForStockName,
   getStockIdFromName,
+  placeOrder,
 } from "../services/zdhService";
 import { useUser } from "../context/UserContext";
 
 const tradeTypes = {
-  BUY: 0,
-  SELL: 1,
+  BUY: "BUY",
+  SELL: "SELL",
+};
+
+const orderTypes = {
+  LIMIT: "LIMIT",
+  STOP: "SL",
 };
 
 const OrderCreater = () => {
@@ -35,16 +41,24 @@ const OrderCreater = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tradeType, setTradeType] = useState(tradeTypes.BUY);
+  const [orderType, setOrderType] = useState(orderTypes.LIMIT);
   const [latestPrice, setLatestPrice] = useState("");
   const [stockName, setStockName] = useState("");
-  const [entryPrice, setEntryPrice] = useState("");
-  const [target, setTarget] = useState("");
-  const [stoploss, setStoploss] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [entryPrice, setEntryPrice] = useState(0);
+  const [target, setTarget] = useState(0);
+  const [stoploss, setStoploss] = useState(0);
 
   const toggleTradeType = () => {
     console.log("Toggling trade type");
     setTradeType((prevTradeType) =>
       prevTradeType === tradeTypes.BUY ? tradeTypes.SELL : tradeTypes.BUY
+    );
+  };
+
+  const toggleTransactionType = () => {
+    setOrderType((prevTransType) =>
+      prevTransType === orderTypes.LIMIT ? orderTypes.STOP : orderTypes.LIMIT
     );
   };
 
@@ -74,6 +88,54 @@ const OrderCreater = () => {
     try {
       const price = await getLatestPriceForStockName(enctoken, stockName);
       setLatestPrice(price);
+    } catch (err) {
+      return toast({
+        title: `Error occured`,
+        status: "error",
+        description: err.message,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleExecuteOrder = async () => {
+    //
+    const data = {
+      variety: "regular",
+      exchange: "NSE",
+      tradingsymbol: stockName,
+      transaction_type: tradeType,
+      order_type: orderType,
+      quantity: quantity,
+      price: entryPrice,
+      product: "MIS",
+      validity: "DAY",
+      disclosed_quantity: "0",
+      trigger_price: "0",
+      squareoff: "0",
+      stoploss: "0",
+      trailing_stoploss: "0",
+      user_id: "VY5511",
+      enctoken,
+    };
+
+    try {
+      const res = await placeOrder(enctoken, data);
+      console.log("res :>> ", res);
+
+      if (res.status === "error")
+        return toast({
+          title: `Error occured`,
+          status: "error",
+          description: res.message,
+          isClosable: true,
+        });
+      toast({
+        title: `Order placed successfully`,
+        status: "success",
+        description: `Order id : ${res.data.order_id}`,
+        isClosable: true,
+      });
     } catch (err) {
       return toast({
         title: `Error occured`,
@@ -132,6 +194,18 @@ const OrderCreater = () => {
                   </VStack>
                 </Button>
               </Flex>
+              <Flex alignItems="center" gap="0.7rem">
+                <Badge variant="solid" p="0.2rem 0.5rem">
+                  Limit
+                </Badge>
+                <Switch
+                  isChecked={orderType === orderTypes.STOP}
+                  onChange={toggleTransactionType}
+                />
+                <Badge variant="solid" p="0.2rem 0.5rem">
+                  Stop
+                </Badge>
+              </Flex>
               <Flex flexDir="column" gap="1.5rem">
                 <Flex justifyContent="space-between">
                   <FormLabel whiteSpace="nowrap">Stock Name :</FormLabel>
@@ -153,6 +227,15 @@ const OrderCreater = () => {
                       {latestPrice}
                     </Badge>
                   )}
+                </Flex>
+                <Flex justifyContent="space-between">
+                  <FormLabel whiteSpace="nowrap">Quantity :</FormLabel>
+                  <Input
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    min="1"
+                    type="number"
+                  />
                 </Flex>
                 <Flex justifyContent="space-between">
                   <FormLabel whiteSpace="nowrap">Entry :</FormLabel>
@@ -183,7 +266,11 @@ const OrderCreater = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme={getColorScheme()} mr={3} onClick={onClose}>
+            <Button
+              colorScheme={getColorScheme()}
+              mr={3}
+              onClick={handleExecuteOrder}
+            >
               Execute
             </Button>
             <Button variant="ghost" onClick={onClose}>
